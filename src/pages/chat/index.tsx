@@ -4,7 +4,12 @@ import './index.scss'
 
 interface ChatState {
     value: string,
-    messages: Set<object>
+    messages: Set<Message>
+}
+
+interface Message {
+    id: number,
+    message: string
 }
 
 class ChatPage extends Component<{}, ChatState> {
@@ -26,25 +31,38 @@ class ChatPage extends Component<{}, ChatState> {
             ])
         }
 
-        // this.handleSend = this.handleSend.bind(this)
-        this.handleChange = this.handleChange.bind(this)
+        // this.getMessagesDom = this.getMessagesDom.bind(this)
     }
 
     handleSend = () => {
-        alert(this.state.value)
+        this.setState({
+            messages: this.state.messages.add({
+                id: 1,
+                message: this.state.value
+            }),
+            value: ''
+        })
     }
 
-    handleChange(event: any) {
+    handleChange = (event: any) => {
         this.setState({
             value: event.target.value
         })
+    }
+
+    getMessagesDom = () => {
+        return ([...this.state.messages].map((item, index) => 
+            <p key={index}>{item.message}</p>
+        ))
     }
 
     render() {
         return (
             <section className="chat-page">
                 <section className="main-container">
-                    
+                    {
+                        this.getMessagesDom()
+                    }
                 </section>
                 <section className="bottom-container">
                     <input type="text" className="chat-input" value={this.state.value} onChange={this.handleChange} />
