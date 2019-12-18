@@ -1,45 +1,55 @@
 import React from 'react'
 import { Component } from "react";
 import './index.scss'
+import io from 'socket.io-client'
 
-interface ChatState {
+interface IChatState {
     value: string,
-    messages: Set<Message>
+    messages: Set<IMessage>
 }
 
-interface Message {
-    id: number,
+interface IMessage {
+    _id: string,
+    userId: string,
+    nickname: string,
     message: string
 }
 
-class ChatPage extends Component<{}, ChatState> {
+class ChatPage extends Component<{}, IChatState> {
+
+    private socket = io('http://localhost:3000')
 
     constructor(props: any) {
         super(props)
-
         this.state = {
             value: '',
-            messages: new Set([
-                {
-                    id: 1,
-                    message: 'AAAAA'
-                },
-                {
-                    id: 2,
-                    message: 'BBBBB'
-                },
-            ])
+            messages: new Set()
         }
+    }
 
-        // this.getMessagesDom = this.getMessagesDom.bind(this)
+    componentDidMount() {
+       this.socket.on('connect', (e: any) => {
+        console.log('connect')
+       })
+       this.socket.on('disconnect', () => {
+           console.log('disconnect')
+       })
+       this.socket.emit('historyMessages', {
+           sessionId: '5df9c6b457818346c04d0d15'
+       }, (data: Array<IMessage>) => {
+           console.log(data)
+        this.setState({
+            messages: new Set(data)
+        })
+       })
     }
 
     handleSend = () => {
         this.setState({
-            messages: this.state.messages.add({
-                id: 1,
-                message: this.state.value
-            }),
+            // messages: this.state.messages.add({
+            //     _id: '1',
+            //     message: this.state.value
+            // }),
             value: ''
         })
     }
@@ -50,9 +60,9 @@ class ChatPage extends Component<{}, ChatState> {
         })
     }
 
-    getMessagesDom = () => {
+    renderMessagesDom = () => {
         return ([...this.state.messages].map((item, index) => 
-            <p key={index}>{item.message}</p>
+            <p key={index}>{item.nickname}: {item.message}</p>
         ))
     }
 
@@ -61,7 +71,7 @@ class ChatPage extends Component<{}, ChatState> {
             <section className="chat-page">
                 <section className="main-container">
                     {
-                        this.getMessagesDom()
+                        this.renderMessagesDom()
                     }
                 </section>
                 <section className="bottom-container">
