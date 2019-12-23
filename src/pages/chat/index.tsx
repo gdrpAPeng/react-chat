@@ -1,8 +1,9 @@
 import React from "react";
 import { Component } from "react";
 import "./index.scss";
-import io from "socket.io-client";
+// import io from "socket.io-client";
 // import { SocketContext } from '../../App'
+import { SocketContext } from '../../context/socket'
 
 interface IChatState {
   value: string;
@@ -21,8 +22,9 @@ interface IMessage {
 
 class ChatPage extends Component<{}, IChatState> {
   
-  private socket = io('http://localhost:3000')
- 
+  // private socket = io('http://localhost:3000')
+  static contextType = SocketContext
+  
   constructor(props: any) {
     super(props);
     this.state = {
@@ -36,19 +38,19 @@ class ChatPage extends Component<{}, IChatState> {
   componentDidMount() {
     // console.log(SocketContext, this.context, '-=-=-')
 
-    this.socket.on("connect", (e: any) => {
+    this.context.on("connect", (e: any) => {
       console.log("connect");
     });
-    this.socket.on("disconnect", () => {
+    this.context.on("disconnect", () => {
       console.log("disconnect");
     });
-    this.socket.on("message", (data: any) => {
+    this.context.on("message", (data: any) => {
       this.setState({
         messages: this.state.messages.add(data)
       });
     });
 
-    this.socket.emit(
+    this.context.emit(
       "historyMessages",
       {
         sessionId: this.state.sessionId
@@ -63,7 +65,7 @@ class ChatPage extends Component<{}, IChatState> {
 
   handleSend = () => {
     const { userId, sessionId, value } = this.state;
-    this.socket.emit(
+    this.context.emit(
       "message",
       {
         userId: userId,
