@@ -9,12 +9,14 @@ interface IChatState {
   value: string;
   messages: Set<IMessage>;
   sessionId: string;
-  userId: string;
+  fromUserId: string;
+  toId: string
 }
 
 interface IMessage {
   _id: string;
-  userId: string;
+  fromUserId: string;
+  toId: string;
   nickname: string;
   message: string;
 }
@@ -29,8 +31,9 @@ class ChatPage extends Component<{}, IChatState> {
     super(props);
     this.state = {
       value: "",
-      sessionId: "5df9c6b457818346c04d0d15",
-      userId: "5df9db6c43f63918cc8f7b5e",
+      sessionId: "5e01c614e6159a1f7c44d6e6",
+      fromUserId: '5e01b40c5f28fa22e41c0552',
+      toId: '5e01b4695f28fa22e41c0553',
       messages: new Set()
     };
   }
@@ -64,12 +67,13 @@ class ChatPage extends Component<{}, IChatState> {
   }
 
   handleSend = () => {
-    const { userId, sessionId, value } = this.state;
+    const { value, fromUserId, toId, sessionId } = this.state;
     this.context.emit(
       "message",
       {
-        userId: userId,
-        sessionId: sessionId,
+        fromUserId,
+        toId,
+        sessionId,
         message: value
       },
       (result: boolean) => {
