@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 
-import './index.scss'
+import '../css/session.scss'
 
 interface ISessionState {
     sessions: Set<ISession>

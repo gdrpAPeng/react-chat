@@ -1,9 +1,9 @@
 import React from "react";
 import { Component } from "react";
-import "./index.scss";
+import "../css/chat.scss";
 // import io from "socket.io-client";
 // import { SocketContext } from '../../App'
-import { SocketContext } from '../../context/socket'
+import { SocketContext } from 'context/socket'
 
 interface IChatState {
   value: string;
@@ -31,18 +31,21 @@ class ChatPage extends Component<{}, IChatState> {
     super(props);
     this.state = {
       value: "",
-      sessionId: "5e01c614e6159a1f7c44d6e6",
-      fromUserId: '5e01b40c5f28fa22e41c0552',
-      toId: '5e01b4695f28fa22e41c0553',
+      sessionId: "5e042f256bb9fe205c14389b",
+      fromUserId: '5e042cecc3f15d41c8f2c4c7',
+      toId: '5e042cffc3f15d41c8f2c4c8',
       messages: new Set()
     };
   }
 
   componentDidMount() {
     // console.log(SocketContext, this.context, '-=-=-')
-
+    console.log(this.context, '==')
     this.context.on("connect", (e: any) => {
       console.log("connect");
+      this.context.emit('connection', {
+        userId: '5e042cffc3f15d41c8f2c4c8'
+      })
     });
     this.context.on("disconnect", () => {
       console.log("disconnect");
@@ -67,6 +70,7 @@ class ChatPage extends Component<{}, IChatState> {
   }
 
   handleSend = () => {
+
     const { value, fromUserId, toId, sessionId } = this.state;
     this.context.emit(
       "message",
@@ -76,10 +80,13 @@ class ChatPage extends Component<{}, IChatState> {
         sessionId,
         message: value
       },
-      (result: boolean) => {
+      (result: any) => {
         if(!result) {
             alert('Send Fail')
         }
+        this.setState({
+          messages: this.state.messages.add(result)
+        });
       }
     );
     this.setState({

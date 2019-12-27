@@ -1,12 +1,13 @@
 import React from 'react';
 import './assets/css/app.scss'
+import { BrowserRouter as Router } from 'react-router-dom'
 
-import HomeLayout from 'pages/home'
+import routes from './pages/routes'
 
 const App: React.FC = () => {
   return (
       <div className="App">
-        <HomeLayout />
+        <Router children={routes}></Router>
       </div>
   );
 }
