@@ -15,14 +15,16 @@ interface IChatState {
 
 interface IMessage {
   _id: string;
-  fromUserId: string;
-  toId: string;
+  fromUserId: any;
+  toId: any;
   nickname: string;
   message: string;
 }
 
 
-class ChatPage extends Component<{}, IChatState> {
+class ChatPage extends Component<{
+  path: string
+}, IChatState> {
   
   // private socket = io('http://localhost:3000')
   static contextType = SocketContext
@@ -103,7 +105,7 @@ class ChatPage extends Component<{}, IChatState> {
   renderMessagesDom = () => {
     return [...this.state.messages].map((item, index) => (
       <p key={index}>
-        {item.nickname}: {item.message}
+        {item.fromUserId.nickname}: {item.message}
       </p>
     ));
   };

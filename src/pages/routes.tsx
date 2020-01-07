@@ -1,17 +1,23 @@
 import React from "react";
 import { Route, Switch } from "react-router-dom";
+// import { Router } from '@reach/router'
 
-import App from "./containers/App";
-import Chat from './components/chat'
-import Session from './components/session'
+// import App from './containers/App'
+import Chat from "./components/chat";
+import Session from "./components/session";
 
 const Routes = (
-    <Route path="/" component={App}>
-        <Switch>
-            <Route path="/chat" component={Chat}></Route>
-            <Route path="/" component={Session}></Route>
-        </Switch>
-    </Route>
+    // <Router>
+    //     <App path="/">
+    //         <Chat path="chat" className="chat-page"/>
+    //         <Session path="/" />
+    //     </App>
+    // </Router>
+  <Switch>
+    <Route path="/chat" component={Chat}></Route>
+    <Route path="/" component={Session}></Route>
+  </Switch>
 );
 
-export default Routes;
+
+export default Routes
