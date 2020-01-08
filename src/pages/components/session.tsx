@@ -13,9 +13,7 @@ interface ISession {
     lastMessage: string
 }
 
-class SessionList extends Component<{
-    path?: string
-}, ISessionState> {
+class SessionList extends Component<{}, ISessionState> {
 
     private history: any
     constructor(props: any) {
