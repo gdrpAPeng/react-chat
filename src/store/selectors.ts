@@ -1,0 +1,1 @@
+export const getAuthState = (store: any) => store.auth
