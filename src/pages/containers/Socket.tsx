@@ -15,12 +15,20 @@ class SocketContainer extends React.Component {
             // 鉴权出现异常，直接去登录页面吧
             localStorage.access_token = ''
             console.log('401')
-        })
+        })  
+
+        // socket.on('disconnect', () => {
+        //     socket.emit('clientDisconnect')
+        // })
+    }
+
+    componentWillUnmount() {
+        // socket.emit('clientDisconnect')
     }
 
     socketAuth() {
         socket.emit('auth', {
-            access_token: localStorage.access_token
+            access_token: 'Bearer ' + localStorage.access_token
         })
     }
 

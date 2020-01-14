@@ -22,36 +22,26 @@ interface IMessage {
 }
 
 
-class ChatPage extends Component<{
-  path: string
-}, IChatState> {
+class ChatPage extends Component<{}, IChatState> {
   
   // private socket = io('http://localhost:3000')
   static contextType = SocketContext
-  
   constructor(props: any) {
     super(props);
+
+    const { sessionId } = props.location.state
+
+    console.log(props, 'props')
     this.state = {
       value: "",
-      sessionId: "5e042f256bb9fe205c14389b",
-      fromUserId: '5e042cecc3f15d41c8f2c4c7',
-      toId: '5e042cffc3f15d41c8f2c4c8',
+      sessionId: sessionId,
+      fromUserId: '',
+      toId: '',
       messages: new Set()
     };
   }
 
   componentDidMount() {
-    // console.log(SocketContext, this.context, '-=-=-')
-    console.log(this.context, '==')
-    this.context.on("connect", (e: any) => {
-      console.log("connect");
-      this.context.emit('connection', {
-        userId: '5e042cffc3f15d41c8f2c4c8'
-      })
-    });
-    this.context.on("disconnect", () => {
-      console.log("disconnect");
-    });
     this.context.on("message", (data: any) => {
       this.setState({
         messages: this.state.messages.add(data)
@@ -64,6 +54,7 @@ class ChatPage extends Component<{
         sessionId: this.state.sessionId
       },
       (data: Array<IMessage>) => {
+        console.log(data)
         this.setState({
           messages: new Set(data)
         });

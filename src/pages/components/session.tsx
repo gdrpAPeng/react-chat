@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
-// import { navigate } from '@reach/router'
-// import { useHistory } from 'react-router-dom'
+import { socket } from 'context/socket'
 
 import '../css/session.scss'
 
@@ -9,40 +8,55 @@ interface ISessionState {
 }
 
 interface ISession {
-    nickname: string
-    lastMessage: string
+    toId: any,
+    sessionId: {
+        lastFromUserId: {
+            nickname: string
+        }
+        lastMessage: string
+    }
 }
 
-class SessionList extends Component<{}, ISessionState> {
+class Session extends Component<{}, ISessionState> {
 
     private history: any
     constructor(props: any) {
         super(props)
         const { history } = props
         this.history = history
-        
+
         this.state = {
-            sessions: new Set([
-                {
-                    nickname: 'APeng',
-                    lastMessage: '最后一条信息噢'
-                }
-            ])
-        }
+            sessions: new Set([])
+        } 
+
+        socket.emit('session', null, (data: any) => {
+            console.log(data, 'session')
+            this.setState({
+                sessions: new Set(data)
+            })
+        })
+        
+         
     }
 
-    // private history = useHistory()
-    handleClick = () => {
-        // useHistory().push('/chat')
-        this.history.push('/chat')
+    componentDidMount() {
+        console.log('session mount')  
+    }
+
+    handleClick = (data: any): any => {
+        console.log(data, '======')
+        const { _id } = data.sessionId
+        this.history.push('/chat', {
+            sessionId: _id
+        })
     }
 
     renderSessionListDom = () => {
         const { sessions } = this.state
         return [...sessions].map((item, index) => (
-            <li key={ index } onClick={ this.handleClick }>
-                <span className="session-name">{ item.nickname }</span>
-                <span className="message">{ item.lastMessage }</span>
+            <li key={ index } onClick={() => this.handleClick(item) }>
+                <span className="session-name">{ item.toId.nickname }</span>
+                <span className="message">{ item.sessionId.lastFromUserId.nickname }:  { item.sessionId.lastMessage }</span>
             </li>
         ))
     }
@@ -58,4 +72,4 @@ class SessionList extends Component<{}, ISessionState> {
     }
 }
 
-export default SessionList
+export default Session
