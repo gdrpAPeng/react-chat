@@ -1,7 +1,14 @@
 import React from 'react'
 import { socket } from 'context/socket'
 
-class SocketContainer extends React.Component {
+class SocketContainer extends React.Component<any> {
+    private history: any
+    constructor(props: any){
+        super(props)
+        const { history } = props
+        this.history = history
+        console.log(props, props.history, '===')
+    }
 
     componentDidMount() {
         console.log('app mount')
@@ -13,13 +20,10 @@ class SocketContainer extends React.Component {
 
         socket.on('authDisconnected', () => {
             // 鉴权出现异常，直接去登录页面吧
-            localStorage.access_token = ''
             console.log('401')
+            localStorage.access_token = ''
+            this.history.replace('/login')
         })  
-
-        // socket.on('disconnect', () => {
-        //     socket.emit('clientDisconnect')
-        // })
     }
 
     componentWillUnmount() {

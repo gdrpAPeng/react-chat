@@ -31,12 +31,12 @@ class Login extends Component<any, any> {
   loginSubmit = async () => {
     await this.props.setUser({
       _id: '5e042cecc3f15d41c8f2c4c7',
-      nickname: '自定义',
+      nickname: '啊Peng',
       username: '啊Peng'
     })
-    localStorage.access_token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IuWVilBlbmciLCJzdWIiOiI1ZTA0MmNlY2MzZjE1ZDQxYzhmMmM0YzciLCJpYXQiOjE1Nzg5NjYzMDEsImV4cCI6MTU3OTA1MjcwMX0.L_a41TVvwm-e_8_SV5iXq9Mz3ndZ0mSwZcOD88LAtnI'
+    // localStorage.access_token = '555'
+    localStorage.setItem('access_token', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IuWVilBlbmciLCJzdWIiOiI1ZTA0MmNlY2MzZjE1ZDQxYzhmMmM0YzciLCJpYXQiOjE1NzkwNTU1NzksImV4cCI6MTU3OTE0MTk3OX0.Quea1SbgnHoIaFtPcT7MYNZ-3j6UxYmytxyfkV2cqCc')
     await this.props.setToken(localStorage.access_token)
-
     // 重新进行 socket 鉴权
     this.socketAuth()
 

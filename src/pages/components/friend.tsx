@@ -9,19 +9,22 @@ class Friend extends Component<any, any> {
         console.log(' ss')
 
         this.state = {
-            friends: new Map()
+            friends: new Set([])
         }
 
         socket.emit('friend', null, (data: any) => {
             console.log(data, 'friend')
+            this.setState({
+                friends: new Set(data)
+            })
         })
     }
 
     renderFriendsDom = () => {
         const { friends } = this.state
-        return [...friends].map((item, index) => (
+        return [...friends].map((item: any, index: number) => (
             <li key={ index }>
-                <span>555</span>
+                <span>{ item.friend_id.nickname }</span>
             </li>
         ))
     }
