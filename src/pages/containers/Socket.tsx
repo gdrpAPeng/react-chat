@@ -38,7 +38,7 @@ class SocketContainer extends React.Component<any> {
 
     render() {
         return (
-            <div className="socket-container" style={ { width: '100vw', height: '100vh' } }>
+            <div className="socket-container" style={ { width: '100%', height: '100%' } }>
                 { this.props.children }
             </div>
         )

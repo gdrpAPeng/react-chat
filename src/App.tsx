@@ -8,24 +8,29 @@ import { createBrowserHistory } from "history";
 import routes from "./pages/routes";
 
 import SocketContainer from "pages/containers/Socket";
+import Header from 'components/header'
+import TabBar from 'components/tabBar'
 
 const history = createBrowserHistory();
 
 const renderDom = () => {
   return (
-    // <SocketContainer>
-    //   <Router history={history}>{routes}</Router>
-    // </SocketContainer>
     <Router history={history}>
-      <SocketContainer history={history}>
-        { routes }
-      </SocketContainer>
+      <Header history={history}/>
+      <section className="body-container">
+        <SocketContainer history={history}>{routes}</SocketContainer>
+      </section>
+      <TabBar history={history}/>
     </Router>
   );
 };
 
 const App: React.FC = (props: any) => {
-  return <div className="App">{renderDom()}</div>;
+  return (
+    <div className="App">
+        {renderDom()}
+    </div>
+  )
 };
 
 export default App;

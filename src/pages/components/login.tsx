@@ -35,7 +35,7 @@ class Login extends Component<any, any> {
       username: '啊Peng'
     })
     // localStorage.access_token = '555'
-    localStorage.setItem('access_token', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IuWVilBlbmciLCJzdWIiOiI1ZTA0MmNlY2MzZjE1ZDQxYzhmMmM0YzciLCJpYXQiOjE1NzkwNTU1NzksImV4cCI6MTU3OTE0MTk3OX0.Quea1SbgnHoIaFtPcT7MYNZ-3j6UxYmytxyfkV2cqCc')
+    localStorage.setItem('access_token', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IuWVilBlbmciLCJzdWIiOiI1ZTA0MmNlY2MzZjE1ZDQxYzhmMmM0YzciLCJpYXQiOjE1NzkxNDc5NzcsImV4cCI6MTU3OTIzNDM3N30.iwxJTVgz4ePEy9U7Zc2VG2XwADTZphq7cYKw5wiqEvo')
     await this.props.setToken(localStorage.access_token)
     // 重新进行 socket 鉴权
     this.socketAuth()

@@ -1,0 +1,18 @@
+.tabbar {
+    background: #F1F1F1;
+    ul {
+        display: flex;
+        justify-content: space-between;
+        padding: .5rem 2rem;
+        li {
+            list-style: none;
+            text-align: center;
+            span {
+                display: block;
+                &:last-child {
+                    font-size: .5rem;
+                }
+            }
+        }
+    }
+}
